@@ -32,26 +32,39 @@ if ($cont >= 3) {
         if (empty($password)) {
             $errors[] = 'Por favor ingrese su contraseña!';
         }
-        if (!$atributos['success']) {
+        /*if (!$atributos['success']) {
             $acion = 'Captcha no Verificado!';
             $errors[] = $acion;
             getDatos(false, $email, $acion);
-        }
+        }*/
 
         if (count($errors) == 0) {
             $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
             $stmt->bindParam(1, $email);
             $stmt->execute();
             $row = $stmt->fetch();
-
             if ($row) {
                 if (password_verify($password, $row['password'])) {
                     $_SESSION['userid'] = $row['id'];
+                    $_SESSION['username'] = $row['name'];
+                    $_SESSION['userrol'] = $row['rol'];
                     $_SESSION['user'] = $row;
-                    $acion = 'El login fue Exitoso';
-                    getDatos(true, $email, $acion);
-                    header("Location: index.php");
-                    exit;
+                    if ($_SESSION['userrol'] == 'admin') {
+                        $acion = 'El login fue Exitoso';
+                        getDatos(true, $email, $acion);
+                        header("Location: admin.php");
+                        exit;
+                    } elseif ($_SESSION['userrol'] == 'user') {
+                        $acion = 'El login fue Exitoso';
+                        getDatos(true, $email, $acion);
+                        header("Location: user.php");
+                        exit;
+                    } else {
+                        $acion = 'Rol de usuario desconocido';
+                        getDatos(false, $email, $acion);
+                        header("Location: 404.html");
+                        exit;
+                    }
                 } else {
                     $acion = 'La contraseña no es valida!';
                     $errors[] = $acion;
@@ -63,8 +76,8 @@ if ($cont >= 3) {
                 getDatos(false, $email, $acion);
             }
             $stmt = null;
+            $pdo = null;
         }
-        $pdo = null;
     }
 }
 ?>

@@ -53,20 +53,20 @@ if ($diff->h > 0) {
 			words: {
 				//words displayed into the countdown
 				days: {
-					singular: "day",
-					plural: "days",
+					singular: "Días",
+					plural: "Días",
 				},
 				hours: {
-					singular: "hour",
-					plural: "hours",
+					singular: "Hora",
+					plural: "Horas",
 				},
 				minutes: {
-					singular: "minute",
-					plural: "minutes",
+					singular: "Minuto",
+					plural: "Minutos",
 				},
 				seconds: {
-					singular: "second",
-					plural: "seconds",
+					singular: "Segundo",
+					plural: "Segundos",
 				},
 			},
 			plural: true, //use plurals
